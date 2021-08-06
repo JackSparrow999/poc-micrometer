@@ -7,20 +7,23 @@ import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import io.micrometer.core.instrument.util.HierarchicalNameMapper;
 import io.micrometer.graphite.GraphiteConfig;
 import io.micrometer.graphite.GraphiteMeterRegistry;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+@Getter
 @Component
 public class MetricHandler {
 
     MeterRegistry meterRegistry;
 
-    Counter orderCounter;
+    private Counter orderCounter;
 
-    Counter paymentCounter;
+    private Counter paymentCounter;
 
-    Counter cancelCounter;
+    private Counter cancelCounter;
 
     @PostConstruct
     public void init(){

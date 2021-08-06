@@ -25,6 +25,7 @@ public class OrderController {
     public String getFood(@RequestParam("food") String food){
         orders.put(count, "PREPARING");
         count++;
+        metricHandler.
         return "Preparing order: " + (count-1);
     }
 

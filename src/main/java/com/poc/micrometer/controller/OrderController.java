@@ -25,25 +25,32 @@ public class OrderController {
     public String getFood(@RequestParam("food") String food){
         orders.put(count, "PREPARING");
         count++;
-        metricHandler.
+        metricHandler.getOrderCounter().increment();
         return "Preparing order: " + (count-1);
     }
 
     @GetMapping("/pay")
     public String payForFood(@RequestParam("id") Integer id){
-        if(orders.containsKey(id) && orders.get(id).equals("PREPARING"))
+        if(orders.containsKey(id) && orders.get(id).equals("PREPARING")) {
+            metricHandler.getPaymentCounter().increment();
             return "Delivered order: " + id;
-        else
+        }
+        else {
+            this.metricHandler.getInvalidRequests().increment();
             return "Payment rejected!";
+        }
     }
 
     @GetMapping("/cancel")
     public String cancelFood(@RequestParam("id") Integer id){
         if(orders.containsKey(id) && orders.get(id).equals("PREPARING")) {
             orders.remove(id);
+            metricHandler.getCancelCounter().increment();
             return "Cancelled order: " + id;
         }
-        else
+        else {
+            this.metricHandler.getInvalidRequests().increment();
             return "Cancellation request rejected!";
+        }
     }
 }

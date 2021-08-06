@@ -25,6 +25,8 @@ public class MetricHandler {
 
     private Counter cancelCounter;
 
+    private Counter invalidRequests;
+
     @PostConstruct
     public void init(){
 
@@ -42,18 +44,11 @@ public class MetricHandler {
         };
 
         this.meterRegistry = new GraphiteMeterRegistry(graphiteConfig, Clock.SYSTEM, HierarchicalNameMapper.DEFAULT);
-    }
 
-    public void addOrderCounter(){
         this.meterRegistry.counter("orders", "food_tag");
-    }
-
-    public void paymentsCounter(){
         this.meterRegistry.counter("payments", "profit");
-    }
-
-    public void cancelOrdersCounter(){
         this.meterRegistry.counter("cancellation", "loss");
+        this.meterRegistry.counter("invalid", "error");
     }
 
 }
